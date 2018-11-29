@@ -1,0 +1,88 @@
+group = 'com.github.ioreskovic'
+version = '1.0.0-SNAPSHOT'
+
+buildscript {
+	ext {
+		springBootVersion = '2.0.2.RELEASE'
+        gradleLombokVersion = '1.11'
+        propdepsPluginVersion = '0.0.9.RELEASE'
+        lombokVersion = '1.16.20'
+        powermockVersion = '1.7.3'
+        junitVersion = '4.12'
+        truthVersion = '0.40'
+        truthJava8EextensionVersion = '0.40'
+        joolVersion = '0.9.12'
+        lmaxDisruptorVersion = '3.3.9'
+        apacheCommonsLang3Version = '3.7'
+        guavaVersion = '25.1-jre'
+        vavrVersion = '0.9.2'
+    }
+
+	repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'http://repo.spring.io/plugins-release' }
+        jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.franzbecker:gradle-lombok:${gradleLombokVersion}")
+        classpath("io.spring.gradle:propdeps-plugin:${propdepsPluginVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: "io.franzbecker.gradle-lombok"
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/release" }
+    maven { url "https://repo.spring.io/milestone" }
+    mavenLocal()
+}
+
+dependencies {
+    compile("org.jooq:jool:${joolVersion}")
+    compile("io.projectreactor.addons:reactor-extra")
+    compile("org.springframework.boot:spring-boot-starter-integration")
+	compile("org.springframework.boot:spring-boot-starter-webflux")
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-log4j2")
+    compile("org.springframework.integration:spring-integration-websocket")
+    compile("org.springframework.integration:spring-integration-webflux")
+    compile("com.lmax:disruptor:${lmaxDisruptorVersion}")
+    compile("org.apache.commons:commons-lang3:${apacheCommonsLang3Version}")
+    compile("com.google.guava:guava:${guavaVersion}")
+    compile("io.vavr:vavr:${vavrVersion}")
+
+    optional("org.springframework.boot:spring-boot-configuration-processor")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("com.google.truth:truth:${truthVersion}")
+    testCompile("com.google.truth.extensions:truth-java8-extension:${truthJava8EextensionVersion}")
+    testCompile("org.powermock:powermock-api-mockito2:${powermockVersion}")
+	testCompile("io.projectreactor:reactor-test")
+}
+
+configurations {
+    all.collect { configuration ->
+        configuration.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        configuration.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+}
+
+lombok {
+    version = "${lombokVersion}"
+    sha256 = ""
+}
