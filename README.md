@@ -2,6 +2,9 @@
 Demonstrates issue: https://stackoverflow.com/questions/53519580/spring-integration-flow-loses-subscriber
 
 ## How to replicate?
+### Method 1
+Run `com.github.ioreskovic.ApplicationTest#example` test method.
+### Method 2
 #### Prerequisites
 * [Google Chrome](https://www.google.com/chrome/)
 * [Dark WebSocket Terminal Google Chrome App](https://chrome.google.com/webstore/detail/dark-websocket-terminal/dmogdjmcpfaibncngoolgljgocdabhke?hl=en)
